@@ -43,7 +43,8 @@ fun DishCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 5.dp)
+            .padding(vertical = 5.dp),
+        backgroundColor = Color.LightGray
     ) {
         Row(
             modifier = Modifier
