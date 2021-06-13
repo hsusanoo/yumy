@@ -6,6 +6,7 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://dl.bintray.com/agarasul/RemoteImage' }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:7.0.0-beta03"
