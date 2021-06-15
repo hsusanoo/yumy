@@ -1,8 +1,7 @@
 package com.hai.yumy.models
 
-import java.net.URI
-
 data class Ingredient(
+
     //  Unformatted data
     var rawString: String,
 
@@ -13,4 +12,9 @@ data class Ingredient(
     var unit: String? = null,
     var calories: Number? = null,
     var weight: Number? = null // in grams
-)
+
+) {
+    override fun toString(): String {
+        return "Ingredient(rawString='$rawString', image=$image, food=$food, quantity=$quantity, unit=$unit, calories=$calories, weight=$weight)"
+    }
+}
