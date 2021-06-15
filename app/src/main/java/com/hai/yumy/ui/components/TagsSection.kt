@@ -1,5 +1,6 @@
 package com.hai.yumy.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -10,6 +11,8 @@ import androidx.compose.material.icons.outlined.Check
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hai.yumy.ui.theme.gray50
@@ -36,7 +39,7 @@ fun TagsSection(
         }
 
         // Tags input
-        Row (Modifier.fillMaxWidth()) {
+        Row(Modifier.fillMaxWidth()) {
 
             TextField(
                 value = tag,
@@ -45,7 +48,9 @@ fun TagsSection(
                 textStyle = MaterialTheme.typography.body2,
                 colors = TextFieldDefaults.textFieldColors(backgroundColor = gray50),
                 placeholder = { Text(text = "Add tag...") },
-                modifier = Modifier.padding(end = 10.dp).weight(1f)
+                modifier = Modifier
+                    .padding(end = 10.dp)
+                    .weight(1f)
             )
             Icon(
                 imageVector = Icons.Outlined.Check,
@@ -57,6 +62,7 @@ fun TagsSection(
                         tag = ""
                     }
                     .align(Alignment.CenterVertically)
+                    .alpha(if (tag.isBlank()) .3f else 1f)
             )
         }
     }
@@ -65,7 +71,10 @@ fun TagsSection(
 @Preview
 @Composable
 fun TagsSectionPreview() {
-    Column(Modifier.padding(10.dp)) {
+    Column(
+        Modifier
+            .padding(10.dp)
+            .background(Color.White)) {
         TagsSection(tags = listOf("Hello", "Healthy"), onAdd = {}, onRemove = {})
     }
 }

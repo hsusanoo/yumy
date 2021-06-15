@@ -14,7 +14,7 @@ class RecipeVM : ViewModel() {
     var tags = mutableStateListOf<String>()
     var preptimeH = mutableStateOf(String())
     var preptimeM = mutableStateOf(String())
-    var servings = mutableStateOf(Int)
+    var servings = mutableStateOf(String())
     var ingredients = mutableStateListOf<Ingredient>()  // Required
 
     fun addIngredient(ingredient: Ingredient) {
@@ -42,10 +42,10 @@ class RecipeVM : ViewModel() {
         return "DishVM(image=${image.value}, " +
                 "name=${name.value}, " +
                 "description=${description.value}, " +
-                "tags=$tags, " +
+                "tags=${tags.joinToString(", ")}, " +
                 "preptimeH=${preptimeH.value}, " +
                 "preptimeM=${preptimeM.value}, " +
-                "ingredients=$ingredients)"
+                "ingredients=${ingredients.joinToString(", ")})"
     }
 }
 

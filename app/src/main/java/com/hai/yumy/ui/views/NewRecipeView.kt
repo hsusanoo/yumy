@@ -7,15 +7,20 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.hai.yumy.ui.components.IngredientsSection
 import com.hai.yumy.ui.components.TagsSection
 import com.hai.yumy.ui.components.cards.UploadImageCard
@@ -77,6 +82,8 @@ fun NewRecipeView(recipeVM: RecipeVM, modifier: Modifier = Modifier) {
                         modifier = Modifier.fillMaxWidth()
                     )
 
+                    SectionGap()
+
                     SectionTitle(title = "Tags")
                     TagsSection(
                         tags = recipeVM.tags,
@@ -84,6 +91,8 @@ fun NewRecipeView(recipeVM: RecipeVM, modifier: Modifier = Modifier) {
                         onRemove = {
                             recipeVM.removeTag(it)
                         })
+
+                    SectionGap()
 
                     //  Description
                     SectionTitle(title = "Description")
@@ -95,6 +104,9 @@ fun NewRecipeView(recipeVM: RecipeVM, modifier: Modifier = Modifier) {
                         modifier = Modifier.fillMaxWidth(),
                         colors = TextFieldDefaults.textFieldColors(backgroundColor = gray50)
                     )
+
+                    SectionGap()
+
                     //  Ingredients
                     SectionTitle(title = "Ingredients")
                     IngredientsSection(
@@ -102,9 +114,62 @@ fun NewRecipeView(recipeVM: RecipeVM, modifier: Modifier = Modifier) {
                         onAdd = { recipeVM.addIngredient(it) },
                         onRemove = { recipeVM.removeIngredient(it) }
                     )
+
+                    // Prep time
+                    SectionGap()
+                    SectionTitle(title = "Preparation time")
+                    Row(
+                        Modifier
+                            .align(Alignment.CenterHorizontally)
+                    ) {
+                        OutlinedTextField(
+                            value = recipeVM.preptimeH.value,
+                            onValueChange = { recipeVM.preptimeH.value = it },
+                            label = { Text("HH") },
+                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                            modifier = Modifier.width(65.dp)
+                        )
+
+                        Text(
+                            text = ":",
+                            fontSize = 40.sp,
+                            modifier = Modifier.align(Alignment.CenterVertically)
+                        )
+
+                        OutlinedTextField(
+                            value = recipeVM.preptimeM.value,
+                            onValueChange = { recipeVM.preptimeM.value = it },
+                            label = { Text(text = "MM") },
+                            modifier = Modifier.width(65.dp)
+
+                        )
+
+                    }
+
+                    // Servings
+                    SectionGap()
+                    SectionTitle(title = "Servings")
+                    Row(Modifier.align(Alignment.CenterHorizontally)) {
+                        OutlinedTextField(
+                            value = recipeVM.servings.value,
+                            onValueChange = { recipeVM.servings.value = it },
+                            label = {
+                                Icon(
+                                    imageVector = Icons.Filled.Person,
+                                    contentDescription = "Person Icon"
+                                )
+                            },
+                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                            modifier = Modifier.width(65.dp)
+                        )
+                    }
+
                 }
             }
         }
+
+        SectionGap()
+        SectionGap()
 
         //  Confirm Button
         Button(
@@ -122,6 +187,8 @@ fun NewRecipeView(recipeVM: RecipeVM, modifier: Modifier = Modifier) {
             )
         }
     }
+
+
 }
 
 @Composable
@@ -132,6 +199,11 @@ private fun SectionTitle(title: String, modifier: Modifier = Modifier) {
         color = gray600,
         modifier = modifier.padding(top = 20.dp, bottom = 10.dp)
     )
+}
+
+@Composable
+fun SectionGap() {
+    Spacer(modifier = Modifier.height(15.dp))
 }
 
 @Preview
