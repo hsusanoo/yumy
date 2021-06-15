@@ -5,7 +5,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -18,21 +17,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hai.yumy.ui.components.IngredientsSection
+import com.hai.yumy.ui.components.TagsSection
 import com.hai.yumy.ui.components.cards.UploadImageCard
 import com.hai.yumy.ui.theme.YumyTheme
 import com.hai.yumy.ui.theme.gray50
 import com.hai.yumy.ui.theme.gray600
-import com.hai.yumy.viewmodels.DishVM
+import com.hai.yumy.viewmodels.RecipeVM
 
 @Composable
-fun NewRecipeView(dishViewModel: DishVM, modifier: Modifier = Modifier) {
+fun NewRecipeView(recipeVM: RecipeVM, modifier: Modifier = Modifier) {
 
 
     val imageLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri ->
         println("Uri inside image launcher: $uri")
-        dishViewModel.image.value = uri
+        recipeVM.image.value = uri
     }
 
     Column(modifier) {
@@ -51,21 +51,23 @@ fun NewRecipeView(dishViewModel: DishVM, modifier: Modifier = Modifier) {
                         }
                 )
             }
+
+            // Scrollable form
             Column(Modifier.verticalScroll(rememberScrollState())) {
 
                 //  Image
                 UploadImageCard(
-                    imageUri = dishViewModel.image.value,
+                    imageUri = recipeVM.image.value,
                     onUpload = { imageLauncher.launch("image/*") })
 
                 Column(Modifier.padding(vertical = 10.dp, horizontal = 12.dp)) {
                     //  Name
                     TextField(
-                        value = dishViewModel.name.value,
-                        onValueChange = { dishViewModel.name.value = it },
+                        value = recipeVM.name.value,
+                        onValueChange = { recipeVM.name.value = it },
                         placeholder = {
                             Text(
-                                text = "My Recipe...",
+                                text = "Recipe name...",
                                 style = MaterialTheme.typography.h5
                             )
                         },
@@ -75,16 +77,19 @@ fun NewRecipeView(dishViewModel: DishVM, modifier: Modifier = Modifier) {
                         modifier = Modifier.fillMaxWidth()
                     )
 
-                    // TODO: Tags
-                    LazyRow {
-
-                    }
+                    SectionTitle(title = "Tags")
+                    TagsSection(
+                        tags = recipeVM.tags,
+                        onAdd = { recipeVM.addTag(it) },
+                        onRemove = {
+                            recipeVM.removeTag(it)
+                        })
 
                     //  Description
                     SectionTitle(title = "Description")
                     TextField(
-                        value = dishViewModel.description.value,
-                        onValueChange = { dishViewModel.description.value = it },
+                        value = recipeVM.description.value,
+                        onValueChange = { recipeVM.description.value = it },
                         maxLines = 4,
                         textStyle = MaterialTheme.typography.body2,
                         modifier = Modifier.fillMaxWidth(),
@@ -93,9 +98,9 @@ fun NewRecipeView(dishViewModel: DishVM, modifier: Modifier = Modifier) {
                     //  Ingredients
                     SectionTitle(title = "Ingredients")
                     IngredientsSection(
-                        ingredientsList = dishViewModel.ingredients,
-                        onAdd = { dishViewModel.addIngredient(it) },
-                        onRemove = { dishViewModel.removeIngredient(it) }
+                        ingredientsList = recipeVM.ingredients,
+                        onAdd = { recipeVM.addIngredient(it) },
+                        onRemove = { recipeVM.removeIngredient(it) }
                     )
                 }
             }
@@ -103,11 +108,12 @@ fun NewRecipeView(dishViewModel: DishVM, modifier: Modifier = Modifier) {
 
         //  Confirm Button
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { println(recipeVM) },
             shape = RoundedCornerShape(50),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 15.dp, vertical = 10.dp)
+                .padding(horizontal = 15.dp, vertical = 10.dp),
+            enabled = recipeVM.isRequiredFieldsFilled()
         ) {
             Text(
                 text = "Add Recipe",
@@ -134,7 +140,7 @@ private fun NewRecipePreview() {
 
     YumyTheme {
         Surface(color = Color.White) {
-            NewRecipeView(dishViewModel = DishVM())
+            NewRecipeView(recipeVM = RecipeVM())
         }
     }
 }

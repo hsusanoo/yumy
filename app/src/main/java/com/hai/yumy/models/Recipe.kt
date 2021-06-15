@@ -2,7 +2,7 @@ package com.hai.yumy.models
 
 import android.net.Uri
 
-data class Dish(
+data class Recipe(
     val image: Uri,
     val name: String,
     val description: String = "",

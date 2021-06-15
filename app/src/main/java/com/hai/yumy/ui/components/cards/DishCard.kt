@@ -10,7 +10,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CheckCircle
-import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,21 +20,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.accompanist.glide.rememberGlidePainter
+import com.hai.yumy.ui.components.Tag
+import com.hai.yumy.ui.theme.gray600
+import com.hai.yumy.ui.theme.green300
+import com.hai.yumy.ui.theme.yellow500
 
 @Composable
 fun DishCard(
     image: Int,
     name: String,
-    prepDurationH: Number,
-    prepDurationM: Number,
+    prepDurationH: Number?,
+    prepDurationM: Number?,
     tags: List<String>,
     serving: Number
 ) {
-
-    val yellow500 = Color(0xFFF59E0B)
-    val green300 = Color(0xFF6EE7B7)
-    val gray600 = Color(0xFF4B5563)
 
     var prepString: String = ""
     if (prepDurationH != null && prepDurationH != 0) prepString = "${prepDurationH}H"
@@ -91,7 +90,7 @@ fun DishCard(
 
                     Row {
                         Icon(
-                            Icons.Outlined.Person,
+                            Icons.Outlined.Timer,
                             contentDescription = "Person icon",
                             tint = yellow500,
                             modifier = Modifier.size(18.dp)
@@ -106,24 +105,6 @@ fun DishCard(
         }
     }
 
-}
-
-@Composable
-fun Tag(text: String) {
-    Surface(
-        color = Color.Black,
-        modifier = Modifier
-            .padding(horizontal = 2.dp, vertical = 4.dp)
-            .clip(RoundedCornerShape(30))
-    ) {
-        Text(
-            text = text,
-            color = Color.White,
-            fontSize = 10.sp,
-            modifier = Modifier
-                .padding(horizontal = 7.dp, vertical = 2.dp)
-        )
-    }
 }
 
 @Preview("Dish Cards")

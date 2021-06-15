@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hai.yumy.models.Ingredient
 import com.hai.yumy.ui.theme.YumyTheme
+import com.hai.yumy.ui.theme.red700
 
 @Composable
 fun IngredientsSection(
@@ -79,7 +80,7 @@ private fun IngredientRow(
         Icon(
             imageVector = Icons.Outlined.Remove,
             contentDescription = "Remove ingredient button",
-            tint = LocalContentColor.current.copy(.6f),
+            tint = red700,
             modifier = Modifier
                 .clickable {
                     onRemove(ingredient)
@@ -110,7 +111,7 @@ fun IngredientInput(
         TextField(
             value = text,
             onValueChange = { setText(it) },
-            placeholder = { Text(text = "1/2 L of milk") },
+            placeholder = { Text(text = "Ingredient...") },
             textStyle = MaterialTheme.typography.body1,
             colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.Transparent),
             singleLine = true,
