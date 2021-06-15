@@ -2,6 +2,7 @@
 buildscript {
     ext {
         compose_version = '1.0.0-beta08'
+        viewmodel_compose_version = '1.0.0-alpha06'
     }
     repositories {
         google()
