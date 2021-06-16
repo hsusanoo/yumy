@@ -1,20 +1,20 @@
 package com.hai.yumy.ui.components.cards
 
-import android.graphics.drawable.RippleDrawable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun AppBar(
     title: String,
-    menu_icon: Int,
-    search_icon: Int,
+    menu_icon: ImageVector,
+    search_icon: ImageVector,
     menuOnClick: () -> Unit,
     searchOnClick: () -> Unit
 ) {
@@ -31,7 +31,7 @@ fun AppBar(
         navigationIcon = {
             IconButton(onClick = menuOnClick) {
                 Icon(
-                    painter = painterResource(id = menu_icon),
+                    imageVector = menu_icon,
                     contentDescription = title,
                     modifier = Modifier.size(24.dp)
                 )
@@ -40,7 +40,7 @@ fun AppBar(
         actions = {
             IconButton(onClick = searchOnClick) {
                 Icon(
-                    painter = painterResource(id = search_icon),
+                    imageVector = search_icon,
                     contentDescription = title,
                     modifier = Modifier.size(24.dp)
                 )
@@ -52,7 +52,7 @@ fun AppBar(
 @Composable
 fun AppBarTitle(
     title: String,
-    search_icon: Int,
+    search_icon: Int?,
     searchOnClick: () -> Unit
 ) {
     Row(

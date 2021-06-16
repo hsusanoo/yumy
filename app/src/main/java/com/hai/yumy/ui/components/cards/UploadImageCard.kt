@@ -34,7 +34,7 @@ fun UploadImageCard(
 ) {
 
     Surface(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .size(height = 250.dp, width = 160.dp)
     ) {
@@ -44,7 +44,6 @@ fun UploadImageCard(
                 modifier = Modifier
                     .background(gray200)
                     .clickable {
-//                        clicked = true
                         onUpload()
                     }) {
                 Column {
@@ -89,5 +88,5 @@ fun UploadImageCard(
 @Preview
 @Composable
 fun UploadImagePreview() {
-    UploadImageCard(imageUri = Uri.parse("") ,onUpload = {})
+    UploadImageCard(imageUri = Uri.parse(""), onUpload = {})
 }

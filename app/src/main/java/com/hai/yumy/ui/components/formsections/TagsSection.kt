@@ -1,4 +1,4 @@
-package com.hai.yumy.ui.components
+package com.hai.yumy.ui.components.formsections
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,6 +15,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.hai.yumy.ui.components.Tag
 import com.hai.yumy.ui.theme.gray50
 
 @Composable
@@ -74,7 +75,8 @@ fun TagsSectionPreview() {
     Column(
         Modifier
             .padding(10.dp)
-            .background(Color.White)) {
+            .background(Color.White)
+    ) {
         TagsSection(tags = listOf("Hello", "Healthy"), onAdd = {}, onRemove = {})
     }
 }

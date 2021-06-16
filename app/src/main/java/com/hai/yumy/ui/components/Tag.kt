@@ -35,7 +35,7 @@ fun Tag(
             .padding(horizontal = (scale * 2).dp, vertical = (scale * 4).dp)
             .clip(RoundedCornerShape(50))
     ) {
-        Row() {
+        Row {
 
             Text(
                 text = text,

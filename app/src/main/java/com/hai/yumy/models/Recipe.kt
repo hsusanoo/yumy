@@ -1,11 +1,24 @@
 package com.hai.yumy.models
 
-import android.net.Uri
-
 data class Recipe(
-    val image: Uri,
-    val name: String,
-    val description: String = "",
-    val tags: List<String> = listOf(),
-    val ingredients: List<Ingredient> = listOf(),
-)
+    var id: String? = null,
+    var image: String,
+    var name: String,
+    var description: String = "",
+    var tags: List<String> = listOf(),
+    var ingredients: List<Ingredient> = listOf(),
+    var preptimeH: Int,
+    var preptimeM: Int,
+    var servings: Int,
+) {
+    override fun toString(): String {
+        return "Recipe(image='$image', " +
+                "name='$name', " +
+                "description='$description', " +
+                "tags=${tags.joinToString(", ")}, " +
+                "ingredients=$ingredients, " +
+                "preptimeH=$preptimeH, " +
+                "preptimeM=$preptimeM, " +
+                "servings=$servings)"
+    }
+}

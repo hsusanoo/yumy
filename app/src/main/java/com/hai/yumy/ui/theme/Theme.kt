@@ -19,13 +19,6 @@ private val LightColorPalette = lightColors(
     secondary = Color(0xFF2C4442),
     onSecondary = Color.Black,
     onPrimary = Color.White,
-
-    /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
 )
 
 @Composable

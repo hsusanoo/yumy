@@ -1,4 +1,4 @@
-package com.hai.yumy.ui.components
+package com.hai.yumy.ui.components.formsections
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -9,9 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Remove
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -99,7 +97,15 @@ fun IngredientInput(
     modifier: Modifier = Modifier
 ) {
 
-    val (text, setText) = remember { mutableStateOf("") }
+    var text by remember {
+        mutableStateOf("")
+    }
+
+
+    val onSubmit = {
+        onAddIngredient(Ingredient(text))
+        text = ""
+    }
 
     Row(
         modifier
@@ -110,7 +116,7 @@ fun IngredientInput(
 
         TextField(
             value = text,
-            onValueChange = { setText(it) },
+            onValueChange = { text = it },
             placeholder = { Text(text = "Ingredient...") },
             textStyle = MaterialTheme.typography.body1,
             colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.Transparent),
@@ -118,14 +124,11 @@ fun IngredientInput(
             maxLines = 1,
             modifier = modifier
                 .weight(1f)
-                .padding(5.dp)
+                .padding(0.dp)
         )
 
         Button(
-            onClick = {
-                onAddIngredient(Ingredient(text))
-                setText("")
-            },
+            onClick = onSubmit,
             shape = CircleShape,
             enabled = text.isNotBlank(),
             contentPadding = PaddingValues(0.dp),

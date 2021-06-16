@@ -11,10 +11,9 @@ data class Ingredient(
     var quantity: Number? = null,
     var unit: String? = null,
     var calories: Number? = null,
-    var weight: Number? = null // in grams
 
-) {
+    ) {
     override fun toString(): String {
-        return "Ingredient(rawString='$rawString', image=$image, food=$food, quantity=$quantity, unit=$unit, calories=$calories, weight=$weight)"
+        return "Ingredient(rawString='$rawString', image=$image, food=$food, quantity=$quantity, unit=$unit, calories=$calories)"
     }
 }

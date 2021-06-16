@@ -21,22 +21,37 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.hai.yumy.ui.components.IngredientsSection
-import com.hai.yumy.ui.components.TagsSection
+import com.hai.yumy.models.Recipe
 import com.hai.yumy.ui.components.cards.UploadImageCard
+import com.hai.yumy.ui.components.formsections.IngredientsSection
+import com.hai.yumy.ui.components.formsections.TagsSection
 import com.hai.yumy.ui.theme.YumyTheme
 import com.hai.yumy.ui.theme.gray50
 import com.hai.yumy.ui.theme.gray600
+import com.hai.yumy.utils.uploadRecipeToFirebase
 import com.hai.yumy.viewmodels.RecipeVM
 
 @Composable
 fun NewRecipeView(recipeVM: RecipeVM, modifier: Modifier = Modifier) {
 
+    val submit = {
+        val recipe = Recipe(
+            null,
+            recipeVM.image.value!!.toString(),
+            recipeVM.name.value,
+            recipeVM.description.value,
+            recipeVM.tags,
+            recipeVM.ingredients,
+            recipeVM.preptimeH.value.toInt(),
+            recipeVM.preptimeM.value.toInt(),
+            recipeVM.servings.value.toInt(),
+        )
+        uploadRecipeToFirebase(recipe)
+    }
 
     val imageLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri ->
-        println("Uri inside image launcher: $uri")
         recipeVM.image.value = uri
     }
 
@@ -140,6 +155,7 @@ fun NewRecipeView(recipeVM: RecipeVM, modifier: Modifier = Modifier) {
                             value = recipeVM.preptimeM.value,
                             onValueChange = { recipeVM.preptimeM.value = it },
                             label = { Text(text = "MM") },
+                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                             modifier = Modifier.width(65.dp)
 
                         )
@@ -173,7 +189,7 @@ fun NewRecipeView(recipeVM: RecipeVM, modifier: Modifier = Modifier) {
 
         //  Confirm Button
         Button(
-            onClick = { println(recipeVM) },
+            onClick = { submit() },
             shape = RoundedCornerShape(50),
             modifier = Modifier
                 .fillMaxWidth()
