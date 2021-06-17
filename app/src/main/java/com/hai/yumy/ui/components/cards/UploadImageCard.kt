@@ -70,7 +70,6 @@ fun UploadImageCard(
                 painter = rememberGlidePainter(
                     imageUri,
                     fadeIn = true,
-                    previewPlaceholder = R.drawable.dish_image_place_holder
                 ),
                 contentDescription = "Dish Image",
                 contentScale = ContentScale.Crop,

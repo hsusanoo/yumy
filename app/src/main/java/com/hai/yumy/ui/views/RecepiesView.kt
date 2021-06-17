@@ -10,9 +10,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.hai.yumy.models.Recipe
 import com.hai.yumy.ui.components.cards.AppBar
+import com.hai.yumy.ui.components.cards.RecipeCard
+import com.hai.yumy.utils.getRecipesFromFirebase
+
+var recipes: List<Recipe> = listOf()
 
 @Composable
-fun RecipesView(recipes: List<Recipe>, modifier: Modifier = Modifier) {
+fun RecipesView(modifier: Modifier = Modifier) {
+    recipes = getRecipesFromFirebase()
     Column(modifier) {
         AppBar(
             title = "Recipes",
@@ -22,8 +27,10 @@ fun RecipesView(recipes: List<Recipe>, modifier: Modifier = Modifier) {
             searchOnClick = {}
         )
         LazyColumn {
-            items (recipes) {
-                it
+            items(recipes) {
+                RecipeCard(
+                    recipe = it
+                )
             }
         }
     }

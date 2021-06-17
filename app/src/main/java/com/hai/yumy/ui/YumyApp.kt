@@ -2,7 +2,6 @@ package com.hai.yumy.ui
 
 import androidx.compose.runtime.Composable
 import com.hai.yumy.ui.theme.YumyTheme
-import com.hai.yumy.ui.views.NewRecipeView
 import com.hai.yumy.viewmodels.RecipeVM
 
 @Composable
@@ -11,6 +10,6 @@ fun YumyApp() {
     // TODO: Navigation
     YumyTheme {
 //        RecipesView()
-        NewRecipeView(recipeVM = recipeVM)
+//        NewRecipeView(recipeVM = recipeVM)
     }
 }

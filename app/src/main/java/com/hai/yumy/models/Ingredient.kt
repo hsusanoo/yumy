@@ -3,7 +3,7 @@ package com.hai.yumy.models
 data class Ingredient(
 
     //  Unformatted data
-    var rawString: String,
+    var rawString: String? = null,
 
     // Formatted data
     var image: String? = null,

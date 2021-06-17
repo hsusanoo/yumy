@@ -73,7 +73,7 @@ private fun IngredientRow(
             .padding(horizontal = 16.dp, vertical = 10.dp),
     ) {
 
-        Text(ingredient.rawString, Modifier.weight(1f))
+        Text(ingredient.rawString!!, Modifier.weight(1f))
 
         Icon(
             imageVector = Icons.Outlined.Remove,

@@ -2,14 +2,14 @@ package com.hai.yumy.models
 
 data class Recipe(
     var id: String? = null,
-    var image: String,
-    var name: String,
+    var image: String? = null,
+    var name: String? = null,
     var description: String = "",
     var tags: List<String> = listOf(),
     var ingredients: List<Ingredient> = listOf(),
-    var preptimeH: Int,
-    var preptimeM: Int,
-    var servings: Int,
+    var preptimeH: Int? = null,
+    var preptimeM: Int? = null,
+    var servings: Int? = null,
 ) {
     override fun toString(): String {
         return "Recipe(image='$image', " +
