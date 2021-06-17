@@ -18,24 +18,24 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.accompanist.glide.rememberGlidePainter
+import com.hai.yumy.models.Recipe
 import com.hai.yumy.ui.components.Tag
 import com.hai.yumy.ui.theme.gray600
 import com.hai.yumy.ui.theme.green300
 import com.hai.yumy.ui.theme.yellow500
 
 @Composable
-fun DishCard(
-    image: Int,
-    name: String,
-    prepDurationH: Number?,
-    prepDurationM: Number?,
-    tags: List<String>,
-    serving: Number
+fun RecipeCard(
+    recipe: Recipe,
+    modifier: Modifier = Modifier
 ) {
 
+    val (_,image, name, _, tags, _, preptimeH, preptimeM, servings) = recipe
+
     var prepString = ""
-    if (prepDurationH != null && prepDurationH != 0) prepString = "${prepDurationH}H"
-    if (prepDurationM != null && prepDurationM != 0) prepString += "${prepDurationM}min"
+    if (preptimeH != 0) prepString = "${preptimeH}H"
+    if (preptimeM != 0) prepString += "${preptimeM}min"
 
     Card(
         modifier = Modifier
@@ -49,7 +49,7 @@ fun DishCard(
                 .height(150.dp)
         ) {
             Image(
-                painter = painterResource(id = image),
+                painter = rememberGlidePainter(image),
                 contentDescription = name,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -93,7 +93,7 @@ fun DishCard(
                             tint = yellow500,
                             modifier = Modifier.size(18.dp)
                         )
-                        Text(text = "× $serving", color = gray600)
+                        Text(text = "× $servings", color = gray600)
                     }
 
                 }
@@ -122,8 +122,8 @@ fun DefaultPreview() {
 //        DishCard(
 //            image = R.drawable.randomdish,
 //            name = "Garlic Herb Roasted Potatoes Carrots and Zucchini",
-//            prepDurationH = 1,
-//            prepDurationM = 15,
+//            preptimeH = 1,
+//            preptimeM = 15,
 //            tags = listOf("Vegan", "Healthy"),
 //            1
 //        )
