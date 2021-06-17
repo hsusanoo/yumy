@@ -4,6 +4,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import com.hai.yumy.models.Recipe
+import com.hai.yumy.utils.getRecipesFromFirebase
+import java.util.*
 
 class HomeVM : ViewModel() {
     var recipes = mutableStateListOf<Recipe>()
@@ -14,14 +16,28 @@ class HomeVM : ViewModel() {
     }
 
     fun filterItems(filter: String) {
-        fillRecipesList(this.recipes)
 
-        if (filter.isBlank())
-            return
+        getRecipesFromFirebase { _recipes ->
+            fillRecipesList(_recipes)
 
-        recipes = recipes.toList().filter {
-            it.name!!.contains(filter) || it.description.contains(filter)
-        }.toMutableStateList()
+            if (filter.isNotBlank()) {
+                recipes = recipes.toList().filter {
+                    it.name!!.lowercase(Locale.getDefault()).contains(filter)
+                            || it.description.lowercase(Locale.getDefault()).contains(filter)
+                            || isRecipeTagsContain(it.tags, filter)
+                }.toMutableStateList()
+            }
+        }
+    }
+
+    private fun isRecipeTagsContain (tags: List<String>, filter: String): Boolean {
+
+        for (tag in tags) {
+            if (tag.lowercase(Locale.getDefault()).contains(filter))
+                return true
+        }
+
+        return false
     }
 
 }

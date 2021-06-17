@@ -10,15 +10,18 @@ import androidx.compose.ui.Modifier
 import com.hai.yumy.ui.components.AppBar
 import com.hai.yumy.ui.components.cards.RecipeCard
 import com.hai.yumy.viewmodels.HomeVM
+import java.util.*
 
 @Composable
 fun HomeView(homeVM: HomeVM, modifier: Modifier = Modifier) {
 
     val (text, setText) = remember { mutableStateOf("") }
     val onValueChange = { value: String ->
-        println("Filtering")
-        homeVM.filterItems(value)
-        setText(value)
+        if (value.length > 2) {
+            println("Filtering")
+            homeVM.filterItems(value.lowercase(Locale.getDefault()))
+            setText(value)
+        }
     }
 
     Column(modifier) {
