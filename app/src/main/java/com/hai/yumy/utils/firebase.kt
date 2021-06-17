@@ -9,6 +9,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.hai.yumy.models.Recipe
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Add a recipe to database
@@ -42,11 +43,10 @@ fun uploadRecipeToFirebase(recipe: Recipe) {
 /**
  * Get a list of all recipes in the database
  */
-fun getRecipesFromFirebase(): List<Recipe> {
+fun getRecipesFromFirebase(callback: (ArrayList<Recipe>) -> Unit) {
     Log.d("Firebase", "Attempting to get recipes from Firebase")
 
-    val recipes = arrayListOf<Recipe>()
-
+    val recipes = ArrayList<Recipe>()
     val recipesRef = FirebaseDatabase.getInstance().getReference("/recipes")
 
     // FIXME: recipes array is empty at the end, might be because it's async or smthg
@@ -63,6 +63,7 @@ fun getRecipesFromFirebase(): List<Recipe> {
                 recipes.add(recipe!!)
             }
             Log.d("Firebase", "Recipes found: ${recipes.joinToString(", ")}")
+            callback(recipes)
         }
 
         override fun onCancelled(error: DatabaseError) {
@@ -72,6 +73,4 @@ fun getRecipesFromFirebase(): List<Recipe> {
 
     })
     Log.d("Firebase", "Final recipes found: ${recipes.joinToString(", ")}")
-    return recipes
-
 }
