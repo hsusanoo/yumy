@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "21117924501",
+    "project_id": "yumy-92833",
+    "storage_bucket": "yumy-92833.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:21117924501:android:3bad041e18bfccbcd9579c",
+        "android_client_info": {
+          "package_name": "com.hai.yumy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "21117924501-f3nukpo29npo575pd9gf71i2g5imaitf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJh8xCD6Y0wAuU4wtqsGq81FGvJMgN6pQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "21117924501-f3nukpo29npo575pd9gf71i2g5imaitf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
