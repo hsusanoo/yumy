@@ -1,11 +1,12 @@
 package com.hai.yumy.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Menu
+import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -25,7 +26,6 @@ fun AppBar(
     title: String,
     text: String,
     onValueChange: (String) -> Unit = {},
-//    onImeAction: () -> Unit = {}
 ) {
 
     val showTextField = remember {
@@ -38,18 +38,25 @@ fun AppBar(
         if (showTextField.value) {
             TextField(
                 value = text,
-                onValueChange = { newValue ->
-                    onValueChange(newValue)
-                },
+                onValueChange = { onValueChange(it) },
                 colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.Transparent),
                 maxLines = 1,
                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(
                     onDone = {
-//                        onImeAction()
                         showTextField.value = !showTextField.value
                         keyboardController?.hide()
                     }),
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Outlined.Close,
+                        contentDescription = "Cancel search",
+                        modifier = Modifier.clickable {
+                            showTextField.value = false
+                            onValueChange("")
+                        }
+                    )
+                },
                 modifier = Modifier.weight(0.9f)
             )
         } else {
