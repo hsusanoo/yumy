@@ -69,7 +69,7 @@ fun UploadImageCard(
             Image(
                 painter = rememberGlidePainter(
                     imageUri,
-                    fadeIn = true,
+//                    fadeIn = true,
                 ),
                 contentDescription = "Dish Image",
                 contentScale = ContentScale.Crop,

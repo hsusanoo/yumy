@@ -1,18 +1,12 @@
 package com.hai.yumy.ui.components.cards
 
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Timer
@@ -32,10 +26,12 @@ import com.hai.yumy.ui.theme.gray600
 import com.hai.yumy.ui.theme.green300
 import com.hai.yumy.ui.theme.yellow500
 
+@ExperimentalMaterialApi
 @Composable
 fun RecipeCard(
     recipe: Recipe,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (Recipe) -> Unit = {}
 ) {
 
     val (id, image, name, _, tags, _, preptimeH, preptimeM, servings) = recipe
@@ -45,10 +41,10 @@ fun RecipeCard(
     if (preptimeM != 0) prepString += "${preptimeM}min"
 
     Card(
+        onClick = { onClick(recipe) },
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 5.dp)
-            .clickable {  }
     ) {
         Row(
             modifier = Modifier
@@ -60,7 +56,7 @@ fun RecipeCard(
                 painter = rememberGlidePainter(image),
                 contentDescription = name,
                 contentScale = ContentScale.Crop,
-                alignment = BiasAlignment(0f, -0f/300),
+                alignment = BiasAlignment(0f, -0f / 300),
                 modifier = Modifier
                     .padding(10.dp)
                     .size(130.dp)
@@ -75,7 +71,7 @@ fun RecipeCard(
                     .padding(horizontal = 10.dp, vertical = 15.dp)
             ) {
                 Column(Modifier.weight(1f)) {
-                    Text(text = name!!, fontSize = 15.sp)
+                    Text(text = name!!, style = MaterialTheme.typography.h6, maxLines = 2)
                     LazyRow {
                         items(tags) {
                             Tag(text = it)
@@ -126,6 +122,7 @@ fun RecipeCard(
 
 }
 
+@ExperimentalMaterialApi
 @Preview
 @Composable
 fun RecipeCardPreview() {

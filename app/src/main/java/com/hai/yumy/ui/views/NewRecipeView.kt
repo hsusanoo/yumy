@@ -21,6 +21,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.hai.yumy.models.Recipe
 import com.hai.yumy.ui.components.cards.UploadImageCard
 import com.hai.yumy.ui.components.formsections.IngredientsSection
@@ -28,15 +29,31 @@ import com.hai.yumy.ui.components.formsections.TagsSection
 import com.hai.yumy.ui.theme.YumyTheme
 import com.hai.yumy.ui.theme.gray50
 import com.hai.yumy.ui.theme.gray600
+import com.hai.yumy.utils.getRecipe
 import com.hai.yumy.utils.uploadRecipeToFirebase
 import com.hai.yumy.viewmodels.RecipeVM
 
 @Composable
-fun NewRecipeView(recipeVM: RecipeVM, modifier: Modifier = Modifier) {
+fun NewRecipeView(
+    recipeVM: RecipeVM,
+    navController: NavHostController?,
+    modifier: Modifier = Modifier,
+    recipeId: String? = null
+) {
+
+    fun navigateToHome() {
+        navController?.navigate("home")
+    }
+
+    if (recipeId != null) {
+        getRecipe(recipeId = recipeId) {
+            recipeVM.copy(it)
+        }
+    }
 
     val submit = {
-        val recipe = Recipe(
-            null,
+        val _recipe = Recipe(
+            recipeId,
             recipeVM.image.value!!.toString(),
             recipeVM.name.value,
             recipeVM.description.value,
@@ -46,7 +63,9 @@ fun NewRecipeView(recipeVM: RecipeVM, modifier: Modifier = Modifier) {
             recipeVM.preptimeM.value.toInt(),
             recipeVM.servings.value.toInt(),
         )
-        uploadRecipeToFirebase(recipe)
+        uploadRecipeToFirebase(_recipe)
+        recipeVM.clear()
+        navigateToHome()
     }
 
     val imageLauncher = rememberLauncherForActivityResult(
@@ -56,7 +75,6 @@ fun NewRecipeView(recipeVM: RecipeVM, modifier: Modifier = Modifier) {
     }
 
     Column(modifier) {
-
         Column(Modifier.weight(1f)) {
 
             //  Back arrow
@@ -67,7 +85,7 @@ fun NewRecipeView(recipeVM: RecipeVM, modifier: Modifier = Modifier) {
                     Modifier
                         .size(30.dp)
                         .clickable {
-                            //  TODO: Go Back
+                            navigateToHome()
                         }
                 )
             }
@@ -228,7 +246,7 @@ private fun NewRecipePreview() {
 
     YumyTheme {
         Surface(color = Color.White) {
-            NewRecipeView(recipeVM = RecipeVM())
+            NewRecipeView(recipeVM = RecipeVM(), null)
         }
     }
 }

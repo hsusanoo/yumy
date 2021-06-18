@@ -15,25 +15,43 @@ import kotlin.collections.ArrayList
  * Add a recipe to database
  */
 fun uploadRecipeToFirebase(recipe: Recipe) {
+
+
     Log.d("Firebase", "Attempting to save data in firebase")
 
     val recipesRef = FirebaseDatabase.getInstance().getReference("/recipes")
 
+    // Storing image
     val filename = UUID.randomUUID().toString()
 
     val imgRef = FirebaseStorage.getInstance().getReference("/images/$filename")
 
-    imgRef.putFile(Uri.parse(recipe.image)).addOnSuccessListener {
-        Log.d("Firebase", "Successfully uploaded the image: ${it.metadata?.path}")
+
+
+    imgRef.putFile(Uri.parse(recipe.image)).addOnSuccessListener { snapshot ->
+        Log.d("Firebase", "Successfully uploaded the image: ${snapshot.metadata?.path}")
 
         imgRef.downloadUrl.addOnSuccessListener {
 
             recipe.image = it.toString()
 
-            recipesRef.push().setValue(recipe).addOnSuccessListener {
-                Log.d("Firebase", "Recipe saved in firebase!")
-            }.addOnFailureListener {
-                Log.d("Firebase", "Failed to save recipe in firebase!")
+            if (recipe.id != null) {
+                // Updating
+                Log.d("Firebase", "Attempting to UPDATE Recipe with id=${recipe.id}")
+                recipesRef.child(recipe.id!!).setValue(recipe).addOnSuccessListener {
+                    Log.d("Firebase", "Recipe saved in firebase!")
+                }.addOnFailureListener {
+                    Log.wtf("Firebase", "Failed to save recipe in firebase!")
+                }
+
+            } else {
+                // Inserting
+                recipesRef.push().setValue(recipe).addOnSuccessListener {
+                    Log.d("Firebase", "Recipe saved in firebase!")
+                }.addOnFailureListener {
+                    Log.wtf("Firebase", "Failed to save recipe in firebase!")
+                }
+
             }
 
         }
@@ -49,7 +67,6 @@ fun getRecipesFromFirebase(callback: (ArrayList<Recipe>) -> Unit) {
     val recipes = ArrayList<Recipe>()
     val recipesRef = FirebaseDatabase.getInstance().getReference("/recipes")
 
-    // FIXME: recipes array is empty at the end, might be because it's async or smthg
     recipesRef.addValueEventListener(object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
             if (!snapshot.exists()) {
@@ -59,6 +76,7 @@ fun getRecipesFromFirebase(callback: (ArrayList<Recipe>) -> Unit) {
 
             for (recipeSnapshot in snapshot.children) {
                 val recipe = recipeSnapshot.getValue(Recipe::class.java)
+                recipe?.id = recipeSnapshot.key
 //                Log.d("Firebase", "Recipe found: $recipe")
                 recipes.add(recipe!!)
             }
@@ -72,5 +90,37 @@ fun getRecipesFromFirebase(callback: (ArrayList<Recipe>) -> Unit) {
         }
 
     })
-    Log.d("Firebase", "Final recipes found: ${recipes.joinToString(", ")}")
+}
+
+/**
+ * Get recipe by id from database
+ */
+fun getRecipe(recipeId: String, callback: (Recipe?) -> Unit) {
+    Log.d("Firebase", "Attempting to get one recipe from Firebase")
+
+    val recipeRef = FirebaseDatabase.getInstance().getReference("/recipes").child(recipeId)
+
+    recipeRef.addListenerForSingleValueEvent(object : ValueEventListener {
+        override fun onDataChange(snapshot: DataSnapshot) {
+            if (!snapshot.exists()) {
+                Log.wtf("Firebase", "No recipe found")
+//                callback(null)
+                return
+            }
+
+            val recipe = snapshot.getValue(Recipe::class.java)
+            Log.d("Firebase", "One recipe found: $recipe")
+            callback(recipe)
+        }
+
+        override fun onCancelled(error: DatabaseError) {
+            TODO("Not yet implemented")
+        }
+
+    })
+}
+
+fun deleteRecipe(recipeId: String) {
+    Log.d("Firebase", "Attempting to DELETE one recipe from Firebase")
+    FirebaseDatabase.getInstance().getReference("/recipes").child(recipeId).removeValue()
 }

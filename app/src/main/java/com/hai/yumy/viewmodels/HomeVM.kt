@@ -20,7 +20,7 @@ class HomeVM : ViewModel() {
         getRecipesFromFirebase { _recipes ->
             fillRecipesList(_recipes)
 
-            if (filter.isNotBlank()) {
+            if (filter.isNotBlank() && filter.length > 2) {
                 recipes = recipes.toList().filter {
                     it.name!!.lowercase(Locale.getDefault()).contains(filter)
                             || it.description.lowercase(Locale.getDefault()).contains(filter)

@@ -12,13 +12,16 @@ data class Recipe(
     var servings: Int? = null,
 ) {
     override fun toString(): String {
-        return "Recipe(image='$image', " +
+        return "Recipe(" +
+                "id='$id'" +
+                "image='$image', " +
                 "name='$name', " +
                 "description='$description', " +
                 "tags=${tags.joinToString(", ")}, " +
                 "ingredients=$ingredients, " +
                 "preptimeH=$preptimeH, " +
                 "preptimeM=$preptimeM, " +
-                "servings=$servings)"
+                "servings=$servings" +
+                ")"
     }
 }
