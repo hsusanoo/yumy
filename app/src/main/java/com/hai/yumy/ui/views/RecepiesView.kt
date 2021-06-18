@@ -20,8 +20,8 @@ fun HomeView(homeVM: HomeVM, modifier: Modifier = Modifier) {
         if (value.length > 2) {
             println("Filtering")
             homeVM.filterItems(value.lowercase(Locale.getDefault()))
-            setText(value)
         }
+        setText(value)
     }
 
     Column(modifier) {

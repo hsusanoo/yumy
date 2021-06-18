@@ -131,6 +131,7 @@ fun RecipeCard(
 fun RecipeCardPreview() {
     Column(modifier = Modifier.padding(20.dp)) {
 
+        //  Note: Can't preview images loaded from urls
         val recipe1 = Recipe(
             image = "https://www.deelux.co.uk/wp-content/uploads/2018/09/IMG_2658.jpg",
             name = "Hearty Minestrone Soup Recipe",
