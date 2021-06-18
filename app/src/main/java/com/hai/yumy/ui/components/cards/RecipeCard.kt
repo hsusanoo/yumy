@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -32,10 +33,12 @@ import com.hai.yumy.ui.theme.gray600
 import com.hai.yumy.ui.theme.green300
 import com.hai.yumy.ui.theme.yellow500
 
+@ExperimentalMaterialApi
 @Composable
 fun RecipeCard(
     recipe: Recipe,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
 ) {
 
     val (id, image, name, _, tags, _, preptimeH, preptimeM, servings) = recipe
@@ -48,7 +51,8 @@ fun RecipeCard(
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 5.dp)
-            .clickable {  }
+            .clickable {  },
+        onClick = onClick
     ) {
         Row(
             modifier = Modifier
@@ -125,33 +129,3 @@ fun RecipeCard(
     }
 
 }
-
-@Preview
-@Composable
-fun RecipeCardPreview() {
-    Column(modifier = Modifier.padding(20.dp)) {
-
-        //  Note: Can't preview images loaded from urls
-        val recipe1 = Recipe(
-            image = "https://www.deelux.co.uk/wp-content/uploads/2018/09/IMG_2658.jpg",
-            name = "Hearty Minestrone Soup Recipe",
-            tags = listOf("Soup", "Healthy", "Pasta"),
-            preptimeH = 1,
-            preptimeM = 45,
-            servings = 4
-        )
-
-        RecipeCard(recipe1)
-        RecipeCard(recipe1)
-        RecipeCard(recipe1)
-        RecipeCard(recipe1)
-        RecipeCard(recipe1)
-        RecipeCard(recipe1)
-        RecipeCard(recipe1)
-    }
-}
-
-
-
-
-

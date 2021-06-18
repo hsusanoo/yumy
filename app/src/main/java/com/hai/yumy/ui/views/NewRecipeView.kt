@@ -32,8 +32,12 @@ import com.hai.yumy.utils.uploadRecipeToFirebase
 import com.hai.yumy.viewmodels.RecipeVM
 
 @Composable
-fun NewRecipeView(recipeVM: RecipeVM, modifier: Modifier = Modifier) {
-
+fun NewRecipeView(
+    recipeVM: RecipeVM,
+    modifier: Modifier = Modifier,
+    setCurrentView: (String) -> Unit,
+    mode: String = "create"
+) {
     val submit = {
         val recipe = Recipe(
             null,
@@ -47,6 +51,7 @@ fun NewRecipeView(recipeVM: RecipeVM, modifier: Modifier = Modifier) {
             recipeVM.servings.value.toInt(),
         )
         uploadRecipeToFirebase(recipe)
+        setCurrentView("home")
     }
 
     val imageLauncher = rememberLauncherForActivityResult(
@@ -67,7 +72,7 @@ fun NewRecipeView(recipeVM: RecipeVM, modifier: Modifier = Modifier) {
                     Modifier
                         .size(30.dp)
                         .clickable {
-                            //  TODO: Go Back
+                            setCurrentView("home")
                         }
                 )
             }
@@ -197,7 +202,7 @@ fun NewRecipeView(recipeVM: RecipeVM, modifier: Modifier = Modifier) {
             enabled = recipeVM.isRequiredFieldsFilled()
         ) {
             Text(
-                text = "Add Recipe",
+                text = if(mode == "create") "Add recipe" else "Update recipe",
                 style = MaterialTheme.typography.body1,
                 modifier = Modifier.padding(vertical = 5.dp)
             )
@@ -222,13 +227,13 @@ fun SectionGap() {
     Spacer(modifier = Modifier.height(15.dp))
 }
 
-@Preview
-@Composable
-private fun NewRecipePreview() {
-
-    YumyTheme {
-        Surface(color = Color.White) {
-            NewRecipeView(recipeVM = RecipeVM())
-        }
-    }
-}
+//@Preview
+//@Composable
+//private fun NewRecipePreview() {
+//
+//    YumyTheme {
+//        Surface(color = Color.White) {
+//            NewRecipeView(recipeVM = RecipeVM())
+//        }
+//    }
+//}
